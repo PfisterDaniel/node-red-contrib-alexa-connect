@@ -1,6 +1,6 @@
 {
   "name": "node-red-alexa-connect",
-  "version": "0.4.65",
+  "version": "0.0.1",
   "description": "Integrate Alexa in your Node-RED flows.",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
       "alexa": "alexa.js"
     }
   },
-  "author": "Daniel Pfister",
+  "author": "Daniel Pfister <support@alexa-connect.de>",
   "license": "Apache-2.0",
   "dependencies": {
     "body-parser": "^1.18.3",
