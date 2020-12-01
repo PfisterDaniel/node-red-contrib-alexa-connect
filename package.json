@@ -1,0 +1,36 @@
+{
+  "name": "node-red-alexa-connect",
+  "version": "0.4.65",
+  "description": "Integrate Alexa in your Node-RED flows.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node-red",
+    "alexa",
+    "echo",
+    "skill"
+  ],
+  "bugs": {
+    "url": "https://github.com/PfisterDaniel/node-red-alexa-connect/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PfisterDaniel/node-red-alexa-connect"
+  },
+  "homepage": "https://service.alexa-connect.de",
+  "node-red": {
+    "nodes": {
+      "alexa": "alexa.js"
+    }
+  },
+  "author": "Daniel Pfister",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "mqtt": "^2.18.8",
+    "semver": "^6.0.0",
+    "uuid": "^3.3.2"
+  }
+}
