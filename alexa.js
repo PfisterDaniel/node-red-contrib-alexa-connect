@@ -280,21 +280,6 @@ module.exports = function(RED) {
                 }
             }
 
-            // Google-Home format message handler
-            else if (message.hasOwnProperty('execution')) {
-                //console.log("Google Home message", message)
-                messageFormat = "Google Home";
-                var msg = {
-                    topic: node.topic || "",
-                    name: node.name,
-                    _messageId: message.requestId,
-                    _endpointId: message.execution.devices[0].id,
-                    _confId: node.confId,
-                    command: message.execution.execution[0].command,
-                    params: message.execution.execution[0].params
-                }
-            }
-
             var respond = true;
             var messageId;
             var supportedCommand = true;
@@ -443,124 +428,7 @@ module.exports = function(RED) {
                 }
             }
 
-            // Google Home Message Handler
-            else if (messageFormat == "Google Home") {
-                if (message.hasOwnProperty('requestId')){messageId = message.requestId};
-                switch (msg.command) {
-                    case "action.devices.commands.ActivateScene" :
-                        msg.command = "Activate"
-                        msg.payload = "ON"
-                        break;
-                    case "action.devices.commands.BrightnessAbsolute":
-                        if (msg.params.hasOwnProperty('brightness')) {
-                            msg.command = "SetBrightness"
-                            msg.payload = msg.params.brightness;
-                        }
-                        break;
-                    case "action.devices.commands.ColorAbsolute":
-                        if (msg.params.color.hasOwnProperty('temperature')) {
-                            msg.command = "SetColorTemperature";
-                            msg.payload = msg.params.color.temperature;     
-                        }
-                        if (msg.params.color.hasOwnProperty('spectrumHSV')) {
-                            msg.command = "SetColor";
-                            msg.payload = {
-                                hue: msg.params.color.spectrumHSV.hue,
-                                saturation: msg.params.color.spectrumHSV.saturation,
-                                brightness: msg.params.color.spectrumHSV.value
-                            }
-                        }   
-                        break;
-                    case "action.devices.commands.LockUnlock" :
-                        if (msg.params.hasOwnProperty('lock')) {
-                            if (msg.params.lock == true){
-                                msg.command = "Lock";
-                                delete msg.payload;
-                            }
-                            else {
-                                msg.command = "Unlock";
-                                delete msg.payload;
-                            }
-                        }
-                        break;
-                    case "action.devices.commands.mediaPause":
-                        msg.command = "Pause"
-                        delete msg.payload;
-                        break;
-                    case "action.devices.commands.mediaResume":
-                        msg.command = "Play"
-                        delete msg.payload;
-                        break;
-                    case "action.devices.commands.mediaNext":
-                        msg.command = "Next"
-                        delete msg.payload;
-                        break;
-                    case "action.devices.commands.mediaPrevious":
-                        msg.command = "Previous"
-                        delete msg.payload;
-                        break;
-                    case "action.devices.commands.mediaStop":
-                        msg.command = "Stop"
-                        delete msg.payload;
-                        break;
-                    case "action.devices.commands.mediaSeekRelative":
-                        if (msg.params.relativePositionMs < 0){msg.command = "Rewind"}
-                        if (msg.params.relativePositionMs > 0){msg.command = "FastForward"}
-                        delete msg.payload;
-                        break;
-                    case "action.devices.commands.mediaSeekToPosition":
-                        if (msg.params.absPositionMs = 0){msg.command = "StartOver"}
-                        delete msg.payload;
-                        break;
-                    case "action.devices.commands.OnOff" :
-                        if (msg.params.on == true) {
-                            msg.command = "TurnOn";
-                            msg.payload = "ON";
-                        }
-                        else if (msg.params.on == false) {
-                            msg.command = "TurnOff";
-                            msg.payload = "OFF";
-                        }
-                        break;
-                    case "action.devices.commands.OpenClose" :
-                        msg.command = "SetRangeValue";
-                        msg.payload = msg.params.openPercent;
-                        break;
-                    case "action.devices.commands.SetFanSpeed" :
-                        msg.command = "SetRangeValue";
-                        msg.payload = msg.params.fanSpeed;
-                        break;
-                    case "action.devices.commands.setVolume" :
-                        if (msg.params.hasOwnProperty('volumeLevel')) {
-                            msg.command = "SetVolume";
-                            msg.payload = msg.params.volumeLevel;
-                        }
-                        break;
-                    case "action.devices.commands.ThermostatTemperatureSetpoint" :
-                        if (msg.params.hasOwnProperty('thermostatTemperatureSetpoint')) {
-                            msg.command = "SetTargetTemperature";
-                            msg.payload = msg.params.thermostatTemperatureSetpoint;
-                        }
-                        break;
-                    case "action.devices.commands.ThermostatSetMode" :
-                        if (msg.params.hasOwnProperty('thermostatMode')) {
-                            msg.command = "SetThermostatMode";
-                            msg.payload = msg.params.thermostatMode.toUpperCase();
-                        }
-                        break;
-                    case "action.devices.commands.volumeRelative" :
-                        if (msg.params.hasOwnProperty('volumeRelativeLevel')) {
-                             msg.command = "AdjustVolume";
-                             msg.payload = msg.params.volumeRelativeLevel;
-                        }
-                        break;
-                    default:
-                        // Do not handle unsupported commands
-                        node.warn("Google Assistant command unsupported!");
-                        supportedCommand = false;
-                        break;
-                }
-            }
+            
             msg.acknowledge = {};
             if (node.acknowledge) {msg.acknowledge = true}
             else {msg.acknowledge = false}
