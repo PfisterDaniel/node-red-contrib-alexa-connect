@@ -10,7 +10,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<script type="text/x-red" data-template-name="alexa-smart-home-v3-conf">
+<script type="text/x-red" data-template-name="alexa-connect-conf">
     <div class="form-row">
 	    <label for="node-config-input-username"><i class="icon-tag"></i> Username</label>
 	    <input type="text" id="node-config-input-username">
@@ -29,19 +29,19 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="alexa-smart-home-v3-conf">
+<script type="text/x-red" data-help-name="alexa-connect-conf">
 	<p>If you don't have an account on the bridge create one
-    <a target="_blank" href="https://red.cb-net.co.uk">here</a>.</p>
+    <a target="_blank" href="https://service.alexa-connect.de">here</a>.</p>
 </script>
 
 <script type="text/javascript">
     // ## Modified to include mqtt / webapi services ??
-    RED.nodes.registerType('alexa-smart-home-v3-conf',{
+    RED.nodes.registerType('alexa-connect-conf',{
         category: 'config',
         defaults: {
             username: {},
-            mqttserver: {value:"mq-red.cb-net.co.uk"},
-            webapiurl: {value:"red.cb-net.co.uk"}
+            mqttserver: {value:"mqtt.alexa-connect.de"},
+            webapiurl: {value:"service.alexa-connect.de"}
         },
         credentials: {
             username: {type:"text"},
@@ -69,7 +69,7 @@
         		}
         		$.ajax({
         			data: JSON.stringify(account),
-        			url: 'alexa-smart-home-v3/new-account',
+        			url: 'alexa-connect/new-account',
         			contentType: 'application/json',
         			type: 'POST',
         			processData: false
@@ -79,7 +79,7 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="alexa-smart-home-v3">
+<script type="text/x-red" data-template-name="alexa-connect">
 	<div class="form-row">
 		<label for="node-input-conf"><i class="icon-tag"></i> Account</label>
 		<input type="text" id="node-input-conf">
@@ -103,7 +103,7 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="alexa-smart-home-v3">
+<script type="text/x-red" data-help-name="alexa-connect">
 	<p>This node provides a Device endpoint for the Alexa/ Google Assistant device bridge.
     To use this node you will need to create an account and declare some devices
     <a target="_blank" href="https://red.cb-net.co.uk">here</a>.
@@ -118,10 +118,10 @@
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('alexa-smart-home-v3',{
+    RED.nodes.registerType('alexa-connect',{
         category: 'alexa',
         defaults: {
-        	conf: {value: "", type:"alexa-smart-home-v3-conf"},
+        	conf: {value: "", type:"alexa-connect-conf"},
         	device: {value: "" },
             acknowledge: {value: true},
         	name: {},
@@ -132,7 +132,7 @@
         color: '#D3D3D3',
         icon: 'alexa.png',
         label: function() {
-        	return this.name || "Alexa Smart Home v3";
+        	return this.name || "Alexa Connect";
         },
         oneditsave: function() {
              var n = $('#node-input-device option:selected').text();
@@ -153,7 +153,7 @@
             });
 
             var getDevs = function (account){
-                $.getJSON('alexa-smart-home-v3/devices/' + account, function(data){
+                $.getJSON('alexa-connect/devices/' + account, function(data){
                     $('#node-input-device').find('option').remove().end();
                     for (d in data) {
                         console.log("device info:", data[d].endpointId, data[d].friendlyName )
@@ -196,7 +196,7 @@
                 $('#node-input-device-refresh').addClass('disabled');
                 var account = $('#node-input-conf').val();
                 $.ajax({
-                    url: 'alexa-smart-home-v3/refresh/' + account,
+                    url: 'alexa-connect/refresh/' + account,
                     type: 'POST'
                 }).done(function(data){
                     setTimeout(function(){
@@ -211,7 +211,7 @@
 
 <!-- ############################################################################################## -->
 
-<script type="text/x-red" data-template-name="alexa-smart-home-v3-state">
+<script type="text/x-red" data-template-name="alexa-connect-state">
 <div class="form-row">
     <label for="node-input-conf"><i class="icon-tag"></i> Account</label>
     <input type="text" id="node-input-conf">
@@ -226,7 +226,7 @@
 </div>
 </script>
 
-<script type="text/x-red" data-help-name="alexa-smart-home-v3-state">
+<script type="text/x-red" data-help-name="alexa-connect-state">
 <p>This node provides state reporting to the Web App.</p>
 <p>Place this node after Alexa Smart Home v3, MQTT out or similar nodes.</p>
 <p>Expects specific inbound message format, namely msg.payload.state and msg.acknowledge elements:</p>
@@ -267,10 +267,10 @@ msg {
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('alexa-smart-home-v3-state',{
+    RED.nodes.registerType('alexa-connect-state',{
         category: 'alexa',
         defaults: {
-        	conf: {value: "", type:"alexa-smart-home-v3-conf"},
+        	conf: {value: "", type:"alexa-connect-conf"},
         	device: {value: "" },
         	name: {},
             topic: {}
@@ -280,7 +280,7 @@ msg {
         color: '#D3D3D3',
         icon: 'alexa.png',
         label: function() {
-        	return this.name || "Alexa Smart Home v3 State";
+        	return this.name || "Alexa Connect State";
         },
         oneditsave: function() {
              var n = $('#node-input-device option:selected').text();
@@ -296,7 +296,7 @@ msg {
             });
 
             var getDevs = function (account){
-                $.getJSON('alexa-smart-home-v3/devices/' + account, function(data){
+                $.getJSON('alexa-connect/devices/' + account, function(data){
                     $('#node-input-device').find('option').remove().end();
                     for (d in data) {
                         console.log("device info:", data[d].endpointId, data[d].friendlyName )
@@ -339,7 +339,7 @@ msg {
                 $('#node-input-device-refresh').addClass('disabled');
                 var account = $('#node-input-conf').val();
                 $.ajax({
-                    url: 'alexa-smart-home-v3/refresh/' + account,
+                    url: 'alexa-connect/refresh/' + account,
                     type: 'POST'
                 }).done(function(data){
                     setTimeout(function(){
@@ -355,10 +355,10 @@ msg {
 <!-- ############################################################################################## -->
 
 
-<script type="text/x-red" data-template-name="alexa-smart-home-v3-resp">
+<script type="text/x-red" data-template-name="alexa-connect-resp">
 </script>
 
-<script type="text/x-red" data-help-name="alexa-smart-home-v3-resp">
+<script type="text/x-red" data-help-name="alexa-connect-resp">
     <p>This node sends a response to Alexa to acknowledge if the command
     succeeded or not. To use this node you will need to un check the
     <i>Auto Acknowledge</i> check box in the Alexa Home node that starts
@@ -369,7 +369,7 @@ msg {
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('alexa-smart-home-v3-resp',{
+    RED.nodes.registerType('alexa-connect-resp',{
         category: 'alexa',
         defaults: {
         },
@@ -378,7 +378,7 @@ msg {
         color: '#D3D3D3',
         icon: 'alexa.png',
         label: function() {
-            return this.name || "Alexa Smart Home v3 Response";
+            return this.name || "Alexa Connect Response";
         }
     });
 </script>

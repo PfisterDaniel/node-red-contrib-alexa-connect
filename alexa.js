@@ -74,13 +74,13 @@ module.exports = function(RED) {
         this.connect = function() {
             // Log version to console to assist future debugging
             node.log("Node-RED contrib version: v" + packageJson.version);
-            node.log("Connecting to Alexa/ Google Home Skill MQTT server: " + node.mqttserver + ", account username: " + node.username);
+            node.log("Connecting to Alexa Skill MQTT server: " + node.mqttserver + ", account username: " + node.username);
             node.client = mqtt.connect(options);
             node.client.setMaxListeners(0);
             
 
             node.client.on('connect', function() {
-                node.log("Successfully connected to Alexa/ Google Home Skill MQTT server: " + node.mqttserver  + ", account username: " + node.username);
+                node.log("Successfully connected to Alexa Skill MQTT server: " + node.mqttserver  + ", account username: " + node.username);
                 node.setStatus({text:'connected', shape:'dot', fill:'green'});
                 node.client.removeAllListeners('message');
                 node.client.subscribe("command/" + node.username + "/#");
@@ -112,7 +112,7 @@ module.exports = function(RED) {
                         
                         for (var id in node.users) {
                             if (node.users.hasOwnProperty(id)){
-                                if (node.users[id].device === endpointId && node.users[id].type == "alexa-smart-home-v3") {
+                                if (node.users[id].device === endpointId && node.users[id].type == "alexa-connect") {
                                     //console.log("info", "Sending command message");
                                     node.users[id].command(msg);
                                 }
@@ -129,7 +129,7 @@ module.exports = function(RED) {
             });
 
             node.client.on('reconnect', function(){
-                node.warn("Re-connecting to Alexa/ Google Home Skill MQTT server: " + node.mqttserver  + ", account username: " + node.username);
+                node.warn("Re-connecting to Alexa Skill MQTT server: " + node.mqttserver  + ", account username: " + node.username);
                 node.setStatus({text: 'reconnecting', shape: 'ring', fill:'red'});
             });
 
@@ -239,7 +239,7 @@ module.exports = function(RED) {
     };
 
     // Re-branded for v3 API
-    RED.nodes.registerType("alexa-smart-home-v3-conf",alexaConf,{
+    RED.nodes.registerType("alexa-connect-conf",alexaConf,{
         credentials: {
             username: {type:"text"},
             password: {type:"password"}
@@ -582,7 +582,7 @@ module.exports = function(RED) {
     }
 
    // Re-branded for v3 API
-    RED.nodes.registerType("alexa-smart-home-v3", alexaHome);
+    RED.nodes.registerType("alexa-connect", alexaHome);
 
     // Think this is OK for v3 API
     function alexaHomeResponse(n) {
@@ -897,13 +897,13 @@ module.exports = function(RED) {
     // ##########################################################
 
     // Re-branded for v3 API
-    RED.nodes.registerType("alexa-smart-home-v3-resp", alexaHomeResponse);
+    RED.nodes.registerType("alexa-connect-resp", alexaHomeResponse);
 
     // New Node Type for State Reporting to Web App
-    RED.nodes.registerType("alexa-smart-home-v3-state", alexaHomeState);
+    RED.nodes.registerType("alexa-connect-state", alexaHomeState);
 
     // Re-branded for v3 API
-    RED.httpAdmin.use('/alexa-smart-home-v3/new-account',bodyParser.json());
+    RED.httpAdmin.use('/alexa-connect/new-account',bodyParser.json());
 
     // Shouldn't need a change?
     // ## Changed to include url in expected params
@@ -967,7 +967,7 @@ module.exports = function(RED) {
       }
 
     // Re-branded for v3 API
-    RED.httpAdmin.post('/alexa-smart-home-v3/new-account',function(req,res){
+    RED.httpAdmin.post('/alexa-connect/new-account',function(req,res){
         //console.log("httpAdmin post", req.body);
     	var username = req.body.user;
         var password = req.body.pass;
@@ -978,7 +978,7 @@ module.exports = function(RED) {
     });
 
     // Re-branded for v3 API
-    RED.httpAdmin.post('/alexa-smart-home-v3/refresh/:id',function(req,res){
+    RED.httpAdmin.post('/alexa-connect/refresh/:id',function(req,res){
         var id = req.params.id;
         var conf = RED.nodes.getNode(id);
         if (conf) {
@@ -995,7 +995,7 @@ module.exports = function(RED) {
     });
 
     // Re-branded for v3 API
-    RED.httpAdmin.get('/alexa-smart-home-v3/devices/:id',function(req,res){
+    RED.httpAdmin.get('/alexa-connect/devices/:id',function(req,res){
     	if (devices[req.params.id]) {
     		res.send(devices[req.params.id]);
     	} else {

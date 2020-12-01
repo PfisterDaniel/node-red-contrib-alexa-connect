@@ -3,16 +3,13 @@
 * Real-time state reporting in the Alexa and Google Home apps.
 * Alexa *and* Google Home support, you can choose to use either, or both (note Google Home integration is currently awaiting certification but you can request access)
 
-To enable Google Home/ Google Assistant functionality follow the instructions [here](https://github.com/coldfire84/node-red-alexa-home-skill-v3-web/wiki/Use-the-Hosted-Instance#google-assistant).
-
 # Getting Started
 Using the (free to use) hosted instance you can be up and running in just a few minutes:
-1. Setup an account [here](https://red.cb-net.co.uk).
-2. Once logged in, create your devices [here](https://red.cb-net.co.uk/devices).
+1. Setup an account [here](https://server.alexa-connect.de).
+2. Once logged in, create your devices [here](https://server.alexa-connect.de/devices).
 3. Install and configure these nodes to your Node-RED instance.
-4. Build relevant flows, see examples [here](https://red.cb-net.co.uk/docs).
+4. Build relevant flows, see examples [here](https://server.alexa-connect.de/docs).
 
-Alternatively, you can deploy your own instance of this service, follow [these instructions](https://github.com/coldfire84/node-red-alexa-home-skill-v3-web/wiki/Deploy-Your-Own).
 
 # Supported Devices/ Capabilities
 |Alexa Interface|Google Trait|Supported Controls|Example Usage|Useful Links|
@@ -33,6 +30,3 @@ Alternatively, you can deploy your own instance of this service, follow [these i
 |Speaker (Step)|Not Supported (use Speaker)|+/- volume, mute|Yamaha Music Cast Amplifier|[node-red-contrib-avr-yamaha](https://flows.nodered.org/node/node-red-contrib-avr-yamaha)|
 |Temperature Sensor|Not Supported|No commands|N/A|View/ query temperature in any room by voice or Alexa App|
 |Thermostats Control (Single set-point only)|TemperatureSetting|Set specific temp**, increase/ decrease|MQTT Out|Any MQTT connected thermostat/HVAC|
-
-# Further Information
-Please see [Wiki](https://github.com/coldfire84/node-red-alexa-home-skill-v3-web/wiki) for additional information.
