@@ -1,7 +1,7 @@
 # Features
 * A wide variety of supported device types and capabilities/ traits (details below)
 * Real-time state reporting in the Alexa and Google Home apps.
-* Alexa *and* Google Home support, you can choose to use either, or both (note Google Home integration is currently awaiting certification but you can request access)
+* Alexa support
 
 # Getting Started
 Using the (free to use) hosted instance you can be up and running in just a few minutes:
