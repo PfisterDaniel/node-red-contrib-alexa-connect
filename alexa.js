@@ -74,13 +74,13 @@ module.exports = function(RED) {
         this.connect = function() {
             // Log version to console to assist future debugging
             node.log("Node-RED contrib version: v" + packageJson.version);
-            node.log("Connecting to Alexa Skill MQTT server: " + node.mqttserver + ", account username: " + node.username);
+            node.log("Connecting to MQTT Server: " + node.mqttserver + ", account username: " + node.username);
             node.client = mqtt.connect(options);
             node.client.setMaxListeners(0);
             
 
             node.client.on('connect', function() {
-                node.log("Successfully connected to Alexa Skill MQTT server: " + node.mqttserver  + ", account username: " + node.username);
+                node.log("Successfully connected to MQTT Server: " + node.mqttserver  + ", account username: " + node.username);
                 node.setStatus({text:'connected', shape:'dot', fill:'green'});
                 node.client.removeAllListeners('message');
                 node.client.subscribe("command/" + node.username + "/#");
@@ -129,7 +129,7 @@ module.exports = function(RED) {
             });
 
             node.client.on('reconnect', function(){
-                node.warn("Re-connecting to Alexa Skill MQTT server: " + node.mqttserver  + ", account username: " + node.username);
+                node.warn("Re-connecting to MQTT Server: " + node.mqttserver  + ", account username: " + node.username);
                 node.setStatus({text: 'reconnecting', shape: 'ring', fill:'red'});
             });
 

@@ -12,21 +12,25 @@
 -->
 <script type="text/x-red" data-template-name="alexa-connect-conf">
     <div class="form-row">
-	    <label for="node-config-input-username"><i class="icon-tag"></i> Username</label>
-	    <input type="text" id="node-config-input-username">
-	</div>
-	<div class="form-row">
-	   	<label for="node-config-input-password"><i class="icon-tag"></i> Password</label>
-	    <input type="password" id="node-config-input-password">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name:</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
     </div>
     <div class="form-row">
+	    <label for="node-config-input-username"><i class="icon-tag"></i> Username:</label>
+	    <input type="text" id="node-config-input-username" placeholder="Username">
+	</div>
+	<div class="form-row">
+	   	<label for="node-config-input-password"><i class="icon-tag"></i> Password:</label>
+	    <input type="password" id="node-config-input-password" placeholder="Password">
+    </div>
+    <!--<div class="form-row">
         <label for="node-config-input-mqttserver"><i class="icon-tag"></i> MQTT Hostname</label>
      <input type="text" id="node-config-input-mqttserver">
     </div>
     <div class="form-row">
         <label for="node-config-input-webapiurl"><i class="icon-tag"></i> Web API Hostname</label>
     <input type="text" id="node-config-input-webapiurl">
-    </div>
+    </div>-->
 </script>
 
 <script type="text/x-red" data-help-name="alexa-connect-conf">
@@ -39,6 +43,7 @@
     RED.nodes.registerType('alexa-connect-conf',{
         category: 'config',
         defaults: {
+            name: {value: ""},
             username: {},
             mqttserver: {value:"mqtt.alexa-connect.de"},
             webapiurl: {value:"service.alexa-connect.de"}
@@ -49,7 +54,7 @@
         },
         color: '#D3D3D3',
         label: function() {
-        	return this.username;
+        	return this.name||"Alexa Connect Account";
         },
         oneditsave: function(){
         	var node = this;
@@ -104,12 +109,12 @@
 </script>
 
 <script type="text/x-red" data-help-name="alexa-connect">
-	<p>This node provides a Device endpoint for the Alexa/ Google Assistant device bridge.
+	<p>This node provides a Device endpoint for the Alexa device bridge.
     To use this node you will need to create an account and declare some devices
-    <a target="_blank" href="https://red.cb-net.co.uk">here</a>.
-    You will also need to link the skill with your Amazon Echo/ Google account</p>
+    <a target="_blank" href="https://service.alexa-connect.de">here</a>.
+    You will also need to link the skill with your Amazon Echo</p>
     <p>Instructions can be found
-    <a target="_blank" href="https://red.cb-net.co.uk/docs">here</a></p>
+    <a target="_blank" href="https://service.alexa-connect.de/documentation">here</a></p>
     <p>The <i>Topic</i> field is optional and will be added to any messages sent from
     the node.</p>
     <p>Auto Acknowledge tells Alexa the command suceeded no matter what. If you untick
@@ -228,7 +233,7 @@
 
 <script type="text/x-red" data-help-name="alexa-connect-state">
 <p>This node provides state reporting to the Web App.</p>
-<p>Place this node after Alexa Smart Home v3, MQTT out or similar nodes.</p>
+<p>Place this node after Alexa Connect, MQTT out or similar nodes.</p>
 <p>Expects specific inbound message format, namely msg.payload.state and msg.acknowledge elements:</p>
 <pre>
 msg {
