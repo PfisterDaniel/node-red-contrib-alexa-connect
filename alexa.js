@@ -39,8 +39,8 @@ module.exports = function(RED) {
     	RED.nodes.createNode(this,n);
         this.username = (this.credentials.username || n.username); // enable transition to credential store for username
     	this.password = this.credentials.password;
-        this.mqttserver = n.mqttserver;
-        this.webapiurl = n.webapiurl;
+        this.mqttserver = "mqtt.alexa-connect.de";
+        this.webapiurl = "service.alexa-connect.de";
         this.users = {};
     	var node = this;
 
@@ -52,8 +52,10 @@ module.exports = function(RED) {
             //clientId: node.username,
             clientId: node.username + '-' + clientId,
             reconnectPeriod: 5000,
+            rejectUnauthorized: false,
             servers:[
                 {
+
                     protocol: 'mqtts',
                     host: node.mqttserver,
                     port: 8883
@@ -852,7 +854,7 @@ module.exports = function(RED) {
         if (conf) {
             var username = conf.credentials.username;
             var password = conf.credentials.password;
-            var url = conf.webapiurl;
+            var url = "service.alexa-connect.de";
             getDevices(url, username,password,id);
             res.status(200).send();
         } else {

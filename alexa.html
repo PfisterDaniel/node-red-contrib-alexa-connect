@@ -23,14 +23,6 @@
 	   	<label for="node-config-input-password"><i class="icon-tag"></i> Password:</label>
 	    <input type="password" id="node-config-input-password" placeholder="Password">
     </div>
-    <!--<div class="form-row">
-        <label for="node-config-input-mqttserver"><i class="icon-tag"></i> MQTT Hostname</label>
-     <input type="text" id="node-config-input-mqttserver">
-    </div>
-    <div class="form-row">
-        <label for="node-config-input-webapiurl"><i class="icon-tag"></i> Web API Hostname</label>
-    <input type="text" id="node-config-input-webapiurl">
-    </div>-->
 </script>
 
 <script type="text/x-red" data-help-name="alexa-connect-conf">
@@ -44,9 +36,7 @@
         category: 'config',
         defaults: {
             name: {value: ""},
-            username: {},
-            mqttserver: {value:"mqtt.alexa-connect.de"},
-            webapiurl: {value:"service.alexa-connect.de"}
+            username: {}
         },
         credentials: {
             username: {type:"text"},
@@ -118,7 +108,7 @@
     <p>The <i>Topic</i> field is optional and will be added to any messages sent from
     the node.</p>
     <p>Auto Acknowledge tells Alexa the command suceeded no matter what. If you untick
-    this option you will need to add a <i>Alexa Home Response</i> node to the flow, injecting
+    this option you will need to add a <i>Alexa Connect Response</i> node to the flow, injecting
     msg.acknowledge into your flow.</p>
 </script>
 
@@ -137,11 +127,11 @@
         color: '#D3D3D3',
         icon: 'alexa.png',
         label: function() {
-        	return this.name || "Alexa Connect";
+        	return "Alexa Connect | Device: " + this.name || "Alexa Connect";
         },
         oneditsave: function() {
-             var n = $('#node-input-device option:selected').text();
-            //console.log("selected name " + n);
+            var n = $('#node-input-device option:selected').text();
+            console.log("Alexa Connect Selected Devicename: " + n);
             this.name = n;
             $('#node-input-name').val(n);
         },
@@ -285,11 +275,11 @@ msg {
         color: '#D3D3D3',
         icon: 'alexa.png',
         label: function() {
-        	return this.name || "Alexa Connect State";
+        	return "Alexa Connect State | Device: " + this.name || "Alexa Connect State";
         },
         oneditsave: function() {
-             var n = $('#node-input-device option:selected').text();
-            //console.log("selected name " + n);
+            var n = $('#node-input-device option:selected').text();
+            console.log("Alexa Connect State Selected Devicename: " + n);
             this.name = n;
             $('#node-input-name').val(n);
         },
@@ -370,7 +360,7 @@ msg {
     the flow. Responses must be sent with in 2 seconds of
     receiving the request otherwise a timeout message will be returned
     to the Alexa sevice.</p>
-    <p>The message must come from the Alexa Home input node and expects msg.acknowledge to be either true or false.</p>
+    <p>The message must come from the Alexa Connect input node and expects msg.acknowledge to be either true or false.</p>
 </script>
 
 <script type="text/javascript">
