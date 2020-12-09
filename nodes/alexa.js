@@ -23,7 +23,7 @@ module.exports = function(RED) {
     const tls = require('tls');
     const semver = require('semver');
     const uuidv4 = require('uuid/v4');
-    const packageJson = require('./package.json');
+    const packageJson = require('./../package.json');
 
     // TODO: Remove after NodeJS fix it, more information
     // https://github.com/nodejs/node/issues/16196
