@@ -1,4 +1,4 @@
-# [node-red](http://nodered.org)-contrib-alexa-connect
+# <img src="https://github.com/PfisterDaniel/node-red-contrib-alexa-connect/blob/main/nodes/icons/alexaconnect.svg" width="60"> [node-red](http://nodered.org)-contrib-alexa-connect
 
 
 
