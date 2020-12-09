@@ -1,7 +1,7 @@
 [![Current Release](https://img.shields.io/github/v/release/PfisterDaniel/node-red-contrib-alexa-connect.svg?colorB=4cc61e)](https://github.com/PfisterDaniel/node-red-contrib-alexa-connect/releases/latest)
 
 
-# [node-red](http://nodered.org)-contrib-alexa-conntect node
+# [node-red](http://nodered.org)-contrib-alexa-connect
 
 
 
