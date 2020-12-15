@@ -23,7 +23,7 @@ module.exports = function(RED) {
     const tls = require('tls');
     const semver = require('semver');
     const uuidv4 = require('uuid/v4');
-    const packageJson = require('./package.json');
+    const packageJson = require('./../package.json');
 
     // TODO: Remove after NodeJS fix it, more information
     // https://github.com/nodejs/node/issues/16196
@@ -86,12 +86,12 @@ module.exports = function(RED) {
                 node.setStatus({text:'connected', shape:'dot', fill:'green'});
                 node.client.removeAllListeners('message');
                 node.client.subscribe("command/" + node.username + "/#");
-                node.client.subscribe("message/" + node.username + "/#");
+                node.client.subscribe("message/" + node.username + "/#"); // Here not valid cannot subscribe to #
                 node.client.on('message', function(topic, message){
                     var msg = JSON.parse(message.toString());
                     //console.log("INFO, new MQTT message");
                     //console.log("INFO, message:" + JSON.stringify(msg));
-
+                    node.log("Log: " + topic + ", " + msg);
                     // Message/ alert handler
                     if (topic.indexOf('message') > -1 ) {
                         var severity = msg.severity;
@@ -101,21 +101,15 @@ module.exports = function(RED) {
                     };
                     // Command handler
                     if (topic.indexOf('command') > -1 ) {
-                        // Added Alexa message handler
                         if (msg.hasOwnProperty('directive')) {
                             //console.log("info", "Received Alexa MQTT message");
+                            node.log("Received Alexa MQTT message");
                             var endpointId = (msg.directive.endpoint.endpointId);
                         }
-                        // Google Home message handler
-                        if (msg.hasOwnProperty('execution')) {
-                            //console.log("info", "Received Google Home MQTT message");
-                            var endpointId = (msg.id);
-                        }
-                        
                         for (var id in node.users) {
                             if (node.users.hasOwnProperty(id)){
                                 if (node.users[id].device === endpointId && node.users[id].type == "alexa-connect") {
-                                    //console.log("info", "Sending command message");
+                                    node.log("Sending command message");
                                     node.users[id].command(msg);
                                 }
                             }
@@ -260,7 +254,7 @@ module.exports = function(RED) {
         this.type = n.type;
 
     	var node = this;
-        
+        this.conf.client.subscribe("command/" + this.conf.username + "/" + this.device);
         // Command Node Command Function
         node.command = function (message){
             //console.log("message", message)
